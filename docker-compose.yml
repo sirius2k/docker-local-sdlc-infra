@@ -1,0 +1,9 @@
+version: '1'
+
+# services need to be configured. Those services also need to be monitored by ELK stack.
+# 1. Jenkins
+# 2. SonarQube
+# 3. Mysql
+# 4. Elastic Search
+# 5. Logstash
+# 6. Kibana
