@@ -1,9 +1,25 @@
-version: '1'
+version: '3'
 
 # services need to be configured. Those services also need to be monitored by ELK stack.
 # 1. Jenkins
-# 2. SonarQube
-# 3. Mysql
-# 4. Elastic Search
-# 5. Logstash
-# 6. Kibana
+# 2. Nexus
+# 3. SonarQube
+# 4. Mysql
+# 5. Elastic Search
+# 6. Logstash
+# 7. Kibana
+
+services:
+  jenkins:
+    image: 'jenkins/jenkins:lts'
+    labels:
+      kompose.service.type: nodeport
+    ports:
+      - '9000:8080'
+      - '9443:8443'
+      - '50000:50000'
+    volumes:
+      - 'jenkins_data:/Users/site/jenkins/jenkins_data'
+volumes:
+  jenkins_data:
+    driver: local
