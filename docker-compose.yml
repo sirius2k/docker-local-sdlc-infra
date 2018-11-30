@@ -20,6 +20,13 @@ services:
       - '50000:50000'
     volumes:
       - 'jenkins_data:/Users/site/jenkins/jenkins_data'
+  nexus:
+    image: 'sonatype/nexus3'
+    ports:
+      - '9001:8081'
+    volumes:
+      - "nexus-data:/Users/site/nexus/nexus-data"
 volumes:
   jenkins_data:
     driver: local
+  nexus-data: {}
