@@ -1,5 +1,6 @@
 version: '3'
 
+# WIP
 # services need to be configured. Those services also need to be monitored by ELK stack.
 # 1. Jenkins
 # 2. Nexus
@@ -15,7 +16,7 @@ services:
     labels:
       kompose.service.type: nodeport
     ports:
-      - '9000:8080'
+      - '9080:8080'
       - '9443:8443'
       - '50000:50000'
     volumes:
@@ -23,9 +24,22 @@ services:
   nexus:
     image: 'sonatype/nexus3'
     ports:
-      - '9001:8081'
+      - '9081:8081'
     volumes:
-      - "nexus-data:/Users/site/nexus/nexus-data"
+      - 'nexus-data:/Users/site/nexus/nexus-data'
+  mysql:
+    image: mysql/mysql-server:5.7
+    restart: always
+    ports:
+      - '9306:3306'
+    environment:
+      - MYSQL_USER=<db_user>
+      - MYSQL_ROOT_PASSWORD=<password>
+      - MYSQL_PASSWORD=<password>
+      - MYSQL_DATABASE=sonar
+    volumes:
+      - '/home/eass-build/mysql/data:/var/lib/mysql'
+      - '/home/eass-build/mysql/config:/etc/mysql'
 volumes:
   jenkins_data:
     driver: local
