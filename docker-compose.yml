@@ -16,25 +16,35 @@ services:
     labels:
       kompose.service.type: nodeport
     ports:
-      - '9080:8080'
+      - '9010:8080'
       - '50000:50000'
     volumes:
       - './jenkins/var/jenkins_home:/var/jenkins_home'
   nexus:
     image: 'sonatype/nexus3'
     ports:
-      - '9081:8081'
+      - '9020:8081'
     volumes:
       - './nexus/nexus-data:/nexus-data'
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+     - PMA_ARBITRARY=1
+    restart: always
+    ports:
+     - '9030:80'
+    volumes:
+     - './phpmyadmin/sessions:/sessions'
   mysql:
     image: mysql/mysql-server:5.7
     restart: always
     ports:
       - '9306:3306'
     environment:
-      - MYSQL_USER=root
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_PASSWORD=root
+      - MYSQL_USER=sdlc
+      - MYSQL_PASSWORD=sldc1234
       - MYSQL_DATABASE=sonar
     volumes:
       - './mysql/var/lib/mysql:/var/lib/mysql'
@@ -45,21 +55,11 @@ services:
     image: sonarqube:latest
     restart: always
     ports:
-      - "9000:9000"
+      - "9090:9000"
       - "9092:9092"
     environment:
-      SONARQUBE_JDBC_USERNAME: root
-      SONARQUBE_JDBC_PASSWORD: root
+      SONARQUBE_JDBC_USERNAME: sdlc
+      SONARQUBE_JDBC_PASSWORD: sdlc1234
       SONARQUBE_JDBC_URL: jdbc:mysql://mysql:9306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
     volumes:
-      - './sonarqube/opt/sonarqube/extensions/plugins:/opt/sonarqube/extensions/plugins'
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
-    environment:
-     - PMA_ARBITRARY=1
-    restart: always
-    ports:
-     - '9090:80'
-    volumes:
-     - './phpmyadmin/sessions:/sessions'
+      - './sonarqube/opt/sonarqube/extensions/plugins:/opt/sonarqube/extensions/plugins'     
