@@ -41,7 +41,7 @@ services:
       - './mysql/etc/mysql:/etc/mysql'
   sonarqube:
     depends_on:
-      - db
+      - mysql
     image: sonarqube:latest
     restart: always
     ports:
