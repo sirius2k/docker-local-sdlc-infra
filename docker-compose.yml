@@ -68,9 +68,9 @@ services:
       - "9000:9000"
       - "9092:9092"
     environment:
-      SONARQUBE_JDBC_USERNAME: sdlc
-      SONARQUBE_JDBC_PASSWORD: sdlc1234
-      SONARQUBE_JDBC_URL: jdbc:mysql://localhost:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+      - SONARQUBE_JDBC_USERNAME=sdlc
+      - SONARQUBE_JDBC_PASSWORD=sdlc1234
+      - SONARQUBE_JDBC_URL=jdbc:mysql://mysql:9306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
     volumes:
       - './sonarqube/opt/sonarqube/conf:/opt/sonarqube/conf'
       - './sonarqube/opt/sonarqube/data:/opt/sonarqube/data'
