@@ -41,24 +41,24 @@ services:
      - '9180:80'
     volumes:
      - './phpmyadmin/sessions:/sessions'
-  # mysql:
-  #   image: mysql/mysql-server:5.7
-  #   container_name: mysql
-  #   restart: always
-  #   ports:
-  #     - '9306:3306'
-  #   environment:
-  #     - MYSQL_ROOT_PASSWORD=root
-  #     - MYSQL_ROOT_HOST=%
-  #     - MYSQL_USER=sdlc
-  #     - MYSQL_PASSWORD=sldc1234
-  #     - MYSQL_DATABASE=sonar
-  #   volumes:
-  #     - './mysql/var/lib/mysql:/var/lib/mysql'
-  #     - './mysql/etc/mysql:/etc/mysql'
+  mysql:
+    image: mysql/mysql-server:5.7
+    container_name: mysql
+    restart: always
+    ports:
+      - '9306:3306'
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_USER=sdlc
+      - MYSQL_PASSWORD=sdlc1234
+      - MYSQL_DATABASE=sonar
+    volumes:
+      - './mysql/var/lib/mysql:/var/lib/mysql'
+      - './mysql/etc/mysql:/etc/mysql'
   sonarqube:
-    # depends_on:
-    #   - mysql
+    depends_on:
+      - mysql
     image: sonarqube:latest
     container_name: sonarqube
     restart: always
@@ -68,7 +68,7 @@ services:
     environment:
       - SONARQUBE_JDBC_USERNAME=sdlc
       - SONARQUBE_JDBC_PASSWORD=sdlc1234
-      - SONARQUBE_JDBC_URL=jdbc:mysql://host.docker.internal:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+      - SONARQUBE_JDBC_URL=jdbc:mysql://mysql:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
     volumes:
       - './sonarqube/opt/sonarqube/conf:/opt/sonarqube/conf'
       - './sonarqube/opt/sonarqube/data:/opt/sonarqube/data'
